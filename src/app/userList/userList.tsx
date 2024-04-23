@@ -3,6 +3,13 @@
 import { useAddUserMutation, useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from '@/redux/slice/apiSlice';
 import { useEffect, useState } from 'react';
 
+interface UserType {
+  id: string;
+  name?: string;
+  pet?: string;
+  avatar?: string;
+  createdAt?: string;
+}
 const UserList = () => {
 
   const [page, setPage] = useState(1);
@@ -39,7 +46,7 @@ const UserList = () => {
 
   useEffect(() => {
     if (updatingId) {
-      const userToUpdate = users.find((user) => user?.id === updatingId);
+      const userToUpdate = users.find((user: UserType) => user?.id === updatingId);
       if (userToUpdate) setEditingName(userToUpdate.name);
     }
   }, [updatingId, users]);
@@ -104,9 +111,9 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-          {users?.map((user) => {
+          {users?.map((user: UserType) => {
             return (
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user.id}>
                 {updatingId === user.id
                   ? <th>
                     <input type="text" value={editingName} onChange={(e) => setEditingName(e.target.value)} />
